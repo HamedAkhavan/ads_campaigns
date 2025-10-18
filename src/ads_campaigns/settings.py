@@ -11,3 +11,7 @@ Note:
     All settings should be documented and have appropriate default values.
 
 """
+
+DB_PATH = (
+    "src/ads_campaigns/campaign.db"  # Can be set via environment variable if needed
+)
