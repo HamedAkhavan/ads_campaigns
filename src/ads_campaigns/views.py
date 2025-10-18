@@ -36,7 +36,7 @@ class BannerSelectorSQL:
         self.con = connection
         self.cur = connection.cursor()
 
-    def _execute_query(self, query: str, params: tuple = ()) -> list[int]:
+    def _execute_query(self, query: str, params: tuple = ()) -> list[sqlite3.Row]:
         self.cur.execute(query, params)
         return [row for row in self.cur.fetchall()]
 
@@ -47,7 +47,7 @@ class BannerSelectorSQL:
 
     def _get_top_by_revenue(
         self, campaign_id: int, n: int, exclude: list[int]
-    ) -> list[int]:
+    ) -> list[sqlite3.Row]:
         """Returns top N banners by revenue, excluding specified banners."""
         placeholders = ",".join("?" for _ in exclude)
         query = f"""
@@ -69,7 +69,7 @@ class BannerSelectorSQL:
 
     def _get_top_by_clicks(
         self, campaign_id: int, n: int, exclude: list[int]
-    ) -> list[int]:
+    ) -> list[sqlite3.Row]:
         """Returns top N banners by click count, excluding specified banners."""
         placeholders = ",".join("?" for _ in exclude)
         query = f"""
@@ -90,11 +90,12 @@ class BannerSelectorSQL:
 
     def _get_random_banners(
         self, campaign_id: int, n: int, exclude: list[int]
-    ) -> list[int]:
+    ) -> list[sqlite3.Row]:
         """Returns N random banners, excluding specified banners."""
         placeholders = ",".join("?" for _ in exclude)
         query = f"""
-            SELECT DISTINCT banner_id
+            SELECT
+                DISTINCT banner_id,
                 COUNT(click_id) as clicks,
                 campaign_id,
                 quarter,
@@ -137,7 +138,9 @@ class BannerSelectorSQL:
 
             needed = 5 - len(final_banners)
             if needed > 0:
-                current_exclude = exclude_banners + final_banners
+                current_exclude = exclude_banners + [
+                    row["banner_id"] for row in final_banners
+                ]
                 click_banners = self._get_top_by_clicks(
                     campaign_id, needed, current_exclude
                 )
@@ -149,7 +152,9 @@ class BannerSelectorSQL:
 
             needed = 5 - len(final_banners)
             if needed > 0:
-                current_exclude = exclude_banners + final_banners
+                current_exclude = exclude_banners + [
+                    row["banner_id"] for row in final_banners
+                ]
                 random_banners = self._get_random_banners(
                     campaign_id, needed, current_exclude
                 )
