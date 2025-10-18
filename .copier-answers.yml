@@ -1,0 +1,12 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 1.10.2
+_src_path: gh:DataChefHQ/Inception
+author_email: hakh.27@gmail.com
+author_name: Hamed Akhavan
+language: Python
+project_description: ''
+project_license: MIT
+project_name: ads_campaigns
+project_version: 1.0.0
+python_package_manager: PDM
+python_version: '>=3.11'
