@@ -1,3 +1,9 @@
+## v0.1.6 (2025-10-19)
+
+### Fix
+
+- check if pdm is installed
+
 ## v0.1.5 (2025-10-19)
 
 ### Fix
