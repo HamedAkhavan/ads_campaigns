@@ -18,7 +18,7 @@ jobs:
       - uses: cachix/install-nix-action@v26
       - uses: cachix/cachix-action@v14
         with:
-          name: devenv
+          name: devenv-1
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
 
