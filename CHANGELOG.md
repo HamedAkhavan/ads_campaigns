@@ -1,3 +1,9 @@
+## v0.1.5 (2025-10-19)
+
+### Fix
+
+- install pdm dependencies, revert cachix cache name
+
 ## v0.1.4 (2025-10-19)
 
 ### Fix
